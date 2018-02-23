@@ -1,7 +1,7 @@
 import java.util.ArrayList;
+
 /**
- * La clase persona simula una persona que se le puede dar de coemr.
- * 
+ * La clase persona simula una persona que se le puede dar de comer.
  * @author (Fernando) 
  * @version (Version 1.0)
  */
@@ -28,7 +28,6 @@ public class Persona
 
     /**
      * Constructor for objects of class Persona
-
      * @param peso en kg
      * @param sexo true para hombres y false para mujeres
      * @param altura en cm
@@ -36,35 +35,28 @@ public class Persona
     public Persona(String nombrePersona, boolean sexo, int peso, int altura, int edad)
     {
         comidaIngerida = new ArrayList();
-
         nombre = nombrePersona;
         longitudPalabra = 3;
-        if (sexo)
-        {
+        if (sexo){
             //maximo de calorias que puede ingerir una persona.
-            caloriasMaximas = (10 * peso) + (6 * altura) + (5 * edad)+5;
+            caloriasMaximas = (10 * peso) + (6 * altura) + (5 * edad) + 5;
         }
-        else
-        {
+        else{
+            //maximo de calorias que puede ingerir una persona.
             caloriasMaximas = (10 * peso) + (6 * altura) + (5 * edad) - 161;
         }
-
     }
 
     /**
      * Metodo para dar de comer a la persona
      */
     public int comer(Comida comida){
-
         int caloriasIngeridas = -1;
-
-        if (caloriasMaximas >= calorias)
-        {
+        if (caloriasMaximas >= calorias){
             caloriasIngeridas = comida.getCalorias();
-            calorias =caloriasIngeridas + calorias;
+            calorias = caloriasIngeridas + calorias;
             comidaIngerida.add(comida);
         }
-
         return caloriasIngeridas;
     }
 
@@ -74,7 +66,6 @@ public class Persona
      * 
      * @return devuelve un int con las calorias que la persona ha ingerido en su totalidad.
      */
-
     public int getCaloriasIngeridas(){
         return calorias;
     }
@@ -95,33 +86,58 @@ public class Persona
     public String contestar(String pregunta)
     {
         boolean respuesta = false;
-
-        if(caloriasMaximas < calorias || pregunta.contains(nombre))
-        {
+        if(caloriasMaximas < calorias || pregunta.contains(nombre)){
             System.out.println(pregunta.toUpperCase());
             pregunta = pregunta.toUpperCase();
             respuesta = true;
         }
 
-        if (caloriasMaximas >= calorias && !respuesta)
-        {
-            if(pregunta.length() % longitudPalabra == 0)
-            {
+        if (caloriasMaximas >= calorias && !respuesta){
+            if(pregunta.length() % longitudPalabra == 0){
                 System.out.println("SI");
                 pregunta = "SI";
             }
-            else
-            {
+            else{
                 System.out.println("NO");
                 pregunta= "NO";
             }
         }
         return pregunta;
     }
-    /**
-     * Metodo para devolver el alimento ingerido con mas calorias
-     * 
-     * @return devuelve un string con el aliment con mas calorias
-     */
 
+    /**
+     * Metodo que imprima por pantalla y que devuelva el nombre de la comida más calórico 
+     * ingerida hasta ahora por un usuario.
+     * 
+     * En caso de que la persona no haya comido nada el método infoma por pantalla de tal situación y devuelve null. 
+     * En caso de que haya empate entre dos o más comidas, imprime y devuelve la última de ellas.
+     * 
+     * 
+     */
+    public String getAlimentoMasCaloricoConsumido()
+    {
+        Comida comidaMasCalorica= null;
+        String nombreComida = null;
+        for (Comida comida : comidaIngerida){
+            if(comidaMasCalorica == null){
+                comidaMasCalorica = comida;
+                nombreComida = comidaMasCalorica.getNombreComida();
+            }
+            else{
+                if (comidaMasCalorica.getCalorias() <= comida.getCalorias()){
+                    comidaMasCalorica = comida;
+                    nombreComida = comidaMasCalorica.getNombreComida();
+                }
+            }
+        }
+
+        if (comidaMasCalorica == null){
+            System.out.println("La persona todavia no ha comida nada");
+        }
+        else{
+            System.out.println(nombreComida);
+        }
+        
+        return nombreComida;
+    }
 }
