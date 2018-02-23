@@ -23,6 +23,8 @@ public class Persona
     private int caloriasMaximas;
     //calorias de los alimentos
     private int calorias;
+    //longitud de la palabra divisible por 3 
+    private int longitudPalabra;
 
     /**
      * Constructor for objects of class Persona
@@ -36,6 +38,7 @@ public class Persona
         comidaIngerida = new ArrayList();
 
         nombre = nombrePersona;
+        longitudPalabra = 3;
         if (sexo)
         {
             //maximo de calorias que puede ingerir una persona.
@@ -52,16 +55,16 @@ public class Persona
      * Metodo para dar de comer a la persona
      */
     public int comer(Comida comida){
-        
+
         int caloriasIngeridas = -1;
-        
+
         if (caloriasMaximas >= calorias)
         {
             caloriasIngeridas = comida.getCalorias();
             calorias =caloriasIngeridas + calorias;
             comidaIngerida.add(comida);
         }
-        
+
         return caloriasIngeridas;
     }
 
@@ -76,6 +79,45 @@ public class Persona
         return calorias;
     }
 
+    /**
+     * Metodo que Ahora queremos que sea posible preguntarle cosas a la persona. 
+     * Si no ha sobrepasado su metabolismo basal, te contestará "SI" o "NO" (¡en mayúsculas!) 
+     * dependiendo de si la pregunta tiene una longitud (es decir, el número de letras de la misma) 
+     * divisible por 3 o no, respectivamente.
+     * 
+     * En caso de que la persona ya haya sobrepasado el metabolismo basal o en el caso de que 
+     * tu pregunta contenga el nombre de la persona, responderá con la misma pregunta que le has hecho pero gritando 
+     * (es decir, el mismo texto de la pregunta pero en mayúsculas) indiferentemente de la longitud de a pregunta.
+     * 
+     * @param pide un string que es la pregunta que le hacemos
+     * @return devuelve uns string con la respuesta
+     */
+    public String contestar(String pregunta)
+    {
+        boolean respuesta = false;
+
+        if(caloriasMaximas < calorias || pregunta.contains(nombre))
+        {
+            System.out.println(pregunta.toUpperCase());
+            pregunta = pregunta.toUpperCase();
+            respuesta = true;
+        }
+
+        if (caloriasMaximas >= calorias && !respuesta)
+        {
+            if(pregunta.length() % longitudPalabra == 0)
+            {
+                System.out.println("SI");
+                pregunta = "SI";
+            }
+            else
+            {
+                System.out.println("NO");
+                pregunta= "NO";
+            }
+        }
+        return pregunta;
+    }
     /**
      * Metodo para devolver el alimento ingerido con mas calorias
      * 
